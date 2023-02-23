@@ -460,6 +460,7 @@ MonoBehaviour:
   TowerNavMeshAgent: {fileID: 1232640172871389214}
   HallwayUnitPrefab: {fileID: 124598300488171768, guid: e0dbbf51a8dbe334cac5445a50104328, type: 3}
   HallwayEndPrefab: {fileID: 6800934369967812161, guid: 24c8d61f4007847439ef07859d0b26c1, type: 3}
+  surface: {fileID: 0}
   HallwayLength: 4
   RandomSeed: 1
   MinimumLeftPillars: 1
@@ -490,6 +491,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1203461951136728325, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1232640172871389214}
+    - target: {fileID: 1203461951136728325, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
+      propertyPath: MaxStep
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203461951136728325, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
+      propertyPath: MoveSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203461951136728325, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
       propertyPath: agentCollider
       value: 
       objectReference: {fileID: 0}
@@ -504,6 +517,10 @@ PrefabInstance:
     - target: {fileID: 2499484970489135970, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
       propertyPath: m_Name
       value: Agent
+      objectReference: {fileID: 0}
+    - target: {fileID: 2499484970489135970, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
+      propertyPath: m_Layer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2499484970489135970, guid: d12cef80996ffb64bbab8cf9e3c9b443, type: 3}
       propertyPath: m_IsActive

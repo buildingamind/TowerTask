@@ -93,7 +93,7 @@ public class HallwayManager : MonoBehaviour
     public void RandomizeConfiguration()
     {
         HallwayLength = Random.Range(4, 8);
-        MinimumTotalPillars = Random.Range(1, 15);
+        MinimumTotalPillars = Random.Range(1, 7);
     }
 
     private void ManageCurrentGoalState()
