@@ -10,7 +10,7 @@ using UnityEngine.AI;
 public class TowerAgent : Agent
 {
     [ReadOnly]
-    public bool mayAct = false;
+    public bool requestDecision = false;
 
     [ReadOnly]
     public float lifetime;
@@ -46,7 +46,7 @@ public class TowerAgent : Agent
     [ReadOnly]
     public int episode;
     [ReadOnly]
-    public float currentReward;
+    public float CumulativeReward;
 
     public float MoveSpeed;
     public float RotateSpeed;
@@ -85,10 +85,13 @@ public class TowerAgent : Agent
         LeftEyeSensor.Camera = LeftEyeCamera;
         RightEyeSensor.Camera = RightEyeCamera;
 
-        // Let's try holding their hands, metaphorically. Though if it helps, I'll hold a newborn AI's hand.
-        currentReward = GetCumulativeReward();
         lifetime += Time.deltaTime;
         AddReward(Time.deltaTime * StaticManager.rewardConfiguration.rewardPerSecond);
+
+        if (!requestDecision)
+        {
+            transform.position += MoveSpeed * Time.deltaTime * transform.forward;
+        }
     }
 
     public static float Sigmoid(float x)
@@ -100,15 +103,40 @@ public class TowerAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (StaticManager.rewardConfiguration == null) { return; }
+        if (!requestDecision)
+        {
+            return;
+        }
 
-        step++;  // Advance the agent's step count for us. 
+        if (StaticManager.rewardConfiguration == null) { return; }
 
         // Actions ////////////////////
         if (actions.DiscreteActions.Length > 0) // Move
         {
-            transform.position += transform.forward * actions.DiscreteActions[0] * MoveSpeed * Time.deltaTime;
-            AddReward(StaticManager.rewardConfiguration.actionPenalty);
+            if (actions.DiscreteActions[0] == 0) return;
+
+            if (actions.DiscreteActions[0] == -1 && hallwayManager.GoalCondition == "left")
+            {
+                AddReward(StaticManager.rewardConfiguration.correctReward);
+                CumulativeReward += StaticManager.rewardConfiguration.correctReward;
+            }
+            else if (actions.DiscreteActions[0] == 1 && hallwayManager.GoalCondition == "right")
+            {
+                AddReward(StaticManager.rewardConfiguration.correctReward);
+                CumulativeReward += StaticManager.rewardConfiguration.correctReward;
+            }
+            else
+            {
+                AddReward(StaticManager.rewardConfiguration.incorrectReward);
+                CumulativeReward += StaticManager.rewardConfiguration.incorrectReward;
+            }
+
+            EndEpisode();
+            Respawn();
+            hallwayManager.RandomizeConfiguration();
+            step++;  // Advance the agent's step count for us. 
+            //transform.position += transform.forward * actions.DiscreteActions[0] * MoveSpeed * Time.deltaTime;
+            //AddReward(StaticManager.rewardConfiguration.actionPenalty);
         }
         //
         if (actions.DiscreteActions.Length > 1) // Rotate
@@ -134,11 +162,31 @@ public class TowerAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
+        if (!requestDecision)
+        {
+            return;
+        }
+
         ActionSegment<int> discreteActionsOut = actionsOut.DiscreteActions;
 
         if (actionsOut.DiscreteActions.Length > 0)
         {
-            // MOVE /////////////////////
+            if (Input.GetKey(KeyCode.D))
+            {
+                discreteActionsOut[0] = 1;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                discreteActionsOut[0] = -1;
+            }
+            else
+            {
+                discreteActionsOut[0] = 0;
+            }
+
+
+            // 
+            /*// MOVE /////////////////////
             if (Input.GetKey(KeyCode.W))
             {
                 discreteActionsOut[0] = 1;
@@ -150,7 +198,7 @@ public class TowerAgent : Agent
             else
             {
                 discreteActionsOut[0] = 0;
-            }
+            }*/
         }
 
         if (actionsOut.DiscreteActions.Length > 1)
@@ -169,6 +217,7 @@ public class TowerAgent : Agent
                 discreteActionsOut[1] = 0;
             }
         }
+
     }
 
     public void ResetEyeRotation()
@@ -181,7 +230,7 @@ public class TowerAgent : Agent
     {
         agent.Warp(spawnPoint);
         agent.enabled = true;
-        mayAct = false;
+        requestDecision = false;
     }
 
     private void OnDrawGizmos()
@@ -205,7 +254,7 @@ public class TowerAgent : Agent
     }
 
 
-    public void OnCollisionEnter(Collision other)
+/*    public void OnCollisionEnter(Collision other)
     {
         string otherTag = other.gameObject.tag;
         if (otherTag.Equals("left") || otherTag.Equals("right"))
@@ -219,6 +268,14 @@ public class TowerAgent : Agent
             EndEpisode();
             hallwayManager.RandomizeConfiguration();
             Respawn();
+        }
+    }*/
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("end"))
+        {
+            requestDecision = true;
         }
     }
 }

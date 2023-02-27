@@ -8,6 +8,7 @@ using Unity.AI.Navigation;
 public class HallwayManager : MonoBehaviour
 {
     public GameObject TowerAgent;
+    public TowerAgent TowerAgentScript;
     public NavMeshAgent TowerNavMeshAgent;
     public GameObject HallwayUnitPrefab;
     public GameObject HallwayEndPrefab;
@@ -65,9 +66,11 @@ public class HallwayManager : MonoBehaviour
 
     private void Start()
     {
-        BuildTower();
-
+        TowerAgentScript = TowerAgent.GetComponent<TowerAgent>();
+        TowerAgentScript.hallwayManager = this;
         TowerNavMeshAgent = TowerAgent.GetComponent<NavMeshAgent>();
+
+        BuildTower();
         if (surface is null){
             surface = GetComponentInParent<NavMeshSurface>();
         }
@@ -171,7 +174,7 @@ public class HallwayManager : MonoBehaviour
         surface.navMeshData = null;
         surface.BuildNavMesh();
         surface.UpdateNavMesh(surface.navMeshData);
-        Debug.Log("[NavMesh] Baked");
+        //Debug.Log("[NavMesh] Baked");
     }
 
     public List<GameObject> EnableRandomPillars()

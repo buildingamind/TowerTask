@@ -6,6 +6,7 @@ TagManager:
   tags:
   - left
   - right
+  - end
   layers:
   - Default
   - TransparentFX

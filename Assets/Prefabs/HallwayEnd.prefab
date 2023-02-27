@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 3905974773440171757}
   m_Layer: 0
   m_Name: HallwayEnd
-  m_TagString: Untagged
+  m_TagString: end
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -688,8 +688,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4326856, y: 1, z: 0.80551934}
-  m_Center: {x: 0.014675766, y: -8.343914e-12, z: 0.09723842}
+  m_Size: {x: 4.1419845, y: 1, z: 1.0499198}
+  m_Center: {x: 0.004352331, y: -4.729396e-12, z: 0.029351994}
 --- !u!1 &7329304626832821965
 GameObject:
   m_ObjectHideFlags: 0
