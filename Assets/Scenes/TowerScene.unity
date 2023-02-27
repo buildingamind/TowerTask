@@ -546,6 +546,22 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419236046060937991, guid: af33c455f62f4c4479c7d623a5e8d09c, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419236046060937991, guid: af33c455f62f4c4479c7d623a5e8d09c, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419236046060937991, guid: af33c455f62f4c4479c7d623a5e8d09c, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419236046060937991, guid: af33c455f62f4c4479c7d623a5e8d09c, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2900981492096267034, guid: af33c455f62f4c4479c7d623a5e8d09c, type: 3}
       propertyPath: m_NavMeshData
       value: 

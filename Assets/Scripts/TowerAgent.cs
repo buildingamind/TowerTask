@@ -10,6 +10,9 @@ using UnityEngine.AI;
 public class TowerAgent : Agent
 {
     [ReadOnly]
+    public bool mayAct = false;
+
+    [ReadOnly]
     public float lifetime;
 
     [HideInInspector]
@@ -178,6 +181,7 @@ public class TowerAgent : Agent
     {
         agent.Warp(spawnPoint);
         agent.enabled = true;
+        mayAct = false;
     }
 
     private void OnDrawGizmos()
